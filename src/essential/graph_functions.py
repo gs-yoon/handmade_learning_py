@@ -1,5 +1,5 @@
 import numpy as np
-from functions import *
+from essential.functions import *
 
 class MulLayer:
     def __init__(self):

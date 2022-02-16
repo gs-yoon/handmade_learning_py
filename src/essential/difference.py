@@ -34,7 +34,3 @@ def function_2(x):
 
 def function_tmp2(x1):
     return 3.0**2.0 + x1*x1
-
-init_x = np.array([-3.0, 4.0])
-ret = gradientDescent(function_2, init_x = init_x, lr = 0.1, step_num = 100)
-print(ret)
