@@ -15,10 +15,11 @@ class TwoLayerNet:
         self.layers = OrderedDict()
         self.layers['Affine1'] = Affine(self.params['W1'], self.params['b1'])
         self.layers['Relu1'] = Relu()
+        self.layers['Affine2'] = Affine(self.params['W2'], self.params['b2'])
         self.lastLayer = SoftmaxWithLoss()
 
     def predict(self, x):
-        for layer in self.layers.value():
+        for layer in self.layers.values():
             x = layer.forward(x)
 
         return x
@@ -53,7 +54,7 @@ class TwoLayerNet:
         dout = self.lastLayer.backward(dout)
 
         layers = list(self.layers.values())
-        layers.erverse()
+        layers.reverse()
         for layer in layers:
             dout = layer.backward(dout)
 
@@ -61,6 +62,6 @@ class TwoLayerNet:
         grads['W1'] = self.layers['Affine1'].dW
         grads['b1'] = self.layers['Affine1'].db
         grads['W2'] = self.layers['Affine2'].dW
-        grads['b1'] = self.layers['Affine2'].db
+        grads['b2'] = self.layers['Affine2'].db
 
         return grads
