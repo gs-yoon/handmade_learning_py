@@ -71,8 +71,11 @@ class Affine:
         self.x = None
         self.dW = None
         self.db = None
+        self.original_x_shape = None
 
     def forward(self, x):
+        self.original_x_shape = x.shape
+        x = x.reshape(x.shape[0], -1)
         self.x = x
         out = np.dot(x , self.W) + self.b
 
@@ -99,6 +102,13 @@ class SoftmaxWithLoss:
 
     def backward(self, dout = 1):
         batch_size = self.t.shape[0]
-        dx = (self.y - self.t) / batch_size
+        if self.t.size == self.y.size: # 教師データがone-hot-vectorの場合
+            dx = (self.y - self.t) / batch_size
+        else:
+            dx = self.y.copy()
+            dx[np.arange(batch_size), self.t] -= 1
+            dx = dx / batch_size
+        
+        return dx
 
         return dx

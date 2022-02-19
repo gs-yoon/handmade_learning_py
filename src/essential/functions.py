@@ -7,15 +7,20 @@ def step(x):
 def sigmoid(x):
     return 1 / ( 1 + np.exp(-x))
 
+def sigmoid_grad(x):
+    return (1.0 - sigmoid(x)) * sigmoid(x)
+
 def relu(x):
     return np.maximum(0,x)
 
+def relu_grad(x):
+    grad = np.zeros_like(x)
+    grad[x>=0] = 1
+    return grad
+
 def softmax(x):
-    c = np.max(x)
-    exp_x = np.exp(x - c)
-    sum_exp_x = np.sum(exp_x)
-    y = exp_x / sum_exp_x
-    return y
+    x = x - np.max(x, axis=-1, keepdims=True)
+    return np.exp(x) / np.sum(np.exp(x), axis=-1, keepdims=True)
 
 def sumSquareError(y, t):
     return 0.5 * np.sum((y-t)**2)
